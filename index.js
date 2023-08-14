@@ -1,4 +1,5 @@
 const cheerio = require("cheerio");
+const stringSimilarity = require("string-similarity");
 
 const htmlString = `
 <!DOCTYPE html><html dir="ltr" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:web="http://schemas.live.com/Web/"><head><script id="ipV6TestScript4" type="text/javascript" async="" src="https://4.bing.com/ipv6test/test"></script><script type="text/javascript">//<![CDATA[
@@ -145,10 +146,10 @@ function parseScore(reqStrs) {
   const stringMap = compareAll(
     reqStrs,
     [outcome[0]["name"], outcome[1]["name"]],
-    compareTwoLevenshtein
+    compareTwoLevenshtein,
   );
-  outcome[0]['name'] = stringMap[outcome[0]['name']];
-  outcome[1]['name'] = stringMap[outcome[1]['name']];
+  outcome[0]["name"] = stringMap[outcome[0]["name"]];
+  outcome[1]["name"] = stringMap[outcome[1]["name"]];
   return outcome;
 }
 
@@ -199,6 +200,17 @@ function compareAll(reqStrs, scrapedStrs, compareTwoFn) {
   return stringMap;
 }
 
+function compareTwoDice(str1, str2) {
+  //normalize the strings
+  str1 = str1.toLowerCase();
+  str1 = str1.replace(/[^a-zA-Z0-9 ]/g, "");
+  str2 = str2.toLowerCase();
+  str2 = str2.replace(/[^a-zA-Z0-9 ]/g, "");
+  const score = stringSimilarity.compareTwoStrings(str1, str2);
+  console.log(`dice: ${str1} vs ${str2}: ${score}`);
+  return score;
+}
+
 function compareTwoLevenshtein(str1, str2) {
   //calculate similarity between strings (credit andres.hedges.name)
   function levenshteinenator(a, b) {
@@ -235,9 +247,8 @@ function compareTwoLevenshtein(str1, str2) {
       }
     }
 
-    const lastNumber = r[r.length - 1][r[0].length - 1]; //last number in the matrix is the lev score
-    console.log(`lev: ${str1} vs ${str2}: ${lastNumber}`);
-    return lastNumber;
+    const score = r[r.length - 1][r[0].length - 1]; //last number in the matrix is the lev score
+    return score;
   }
 
   function minimator(x, y, z) {
@@ -252,7 +263,9 @@ function compareTwoLevenshtein(str1, str2) {
   str2 = str2.toLowerCase();
   str2 = str2.replace(/[^a-zA-Z0-9 ]/g, "");
 
-  return 1 / levenshteinenator(str1, str2); //return inverse of the lev score so that higher is better so that it is interchangeable with the string-similarity library
+  const score = 1 / levenshteinenator(str1, str2); //return inverse of the lev score so that higher is better so that it is interchangeable with the string-similarity library
+  console.log(`lev: ${str1} vs ${str2}: ${score}`);
+  return score;
 }
 
-console.log(parseScore(['burn', 'manchester city']));
+console.log(parseScore(["burn", "manchester city"]));
