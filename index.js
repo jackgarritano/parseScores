@@ -4,9 +4,9 @@ const resolveNames = require('./resolveNames');
 
 const main = async (event) => {
   try{
-    const htmlContent = await scrapeHtml('partizan+belgrade+vs+sabah+fk+august+2023');
+    const htmlContent = await scrapeHtml('manchester+united+vs+wolves+score+august+2023');
     const outcome = parseHtml(htmlContent);
-    const resolvedNameOutcome = resolveNames(['par bel', 'sab fk'], outcome);
+    const resolvedNameOutcome = resolveNames(['man utd', 'wol'], outcome);
     return {outcomeList: resolvedNameOutcome};
   }
   catch(e){

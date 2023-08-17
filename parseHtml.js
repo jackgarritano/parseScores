@@ -7,6 +7,9 @@ function parseScore(htmlString) {
   if(outcome[0]["score"] === '' || outcome[1]["score"] === ''){
     throw new Error('At least one score is empty');
   }
+  if(/\D/.test(outcome[0]["score"]) || /\D/.test(outcome[1]["score"])){
+    throw new Error('Score contains non-digit characters');
+  }
   return outcome;
 }
 
