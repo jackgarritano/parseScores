@@ -22,7 +22,6 @@ async function scrapeHtml(searchQuery){
     console.log(error)
   }
   finally{
-    console.log('in finally');
     if(page !== null && !page.isClosed()){
       await page.close();
     }

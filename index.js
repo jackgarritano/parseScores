@@ -3,17 +3,19 @@ const parseHtml = require('./parseHtml');
 const resolveNames = require('./resolveNames');
 
 const main = async (event) => {
-  const htmlContent = await scrapeHtml('wolves+vs+manchester+united+august+2023');
-  const outcome = parseHtml(htmlContent);
-  const resolvedNameOutcome = resolveNames(['wolves', 'manchester united'], outcome);
-  return resolvedNameOutcome;
+  try{
+    const htmlContent = await scrapeHtml('partizan+belgrade+vs+sabah+fk+august+2023');
+    const outcome = parseHtml(htmlContent);
+    const resolvedNameOutcome = resolveNames(['par bel', 'sab fk'], outcome);
+    return {outcomeList: resolvedNameOutcome};
+  }
+  catch(e){
+    return {error: e};
+  }
 };
 
 main()
   .then((res) => {
     console.log(res);
     process.exit();
-  })
-  .catch((e) => {
-    console.log('error', e);
   })
