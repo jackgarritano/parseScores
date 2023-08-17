@@ -4,6 +4,9 @@ function parseScore(htmlString) {
   const $ = cheerio.load(htmlString);
   const matchTable = extractTable($);
   let outcome = parseScoreObj($, matchTable);
+  if(outcome[0]["score"] === '' || outcome[1]["score"] === ''){
+    throw new Error('At least one score is empty');
+  }
   return outcome;
 }
 

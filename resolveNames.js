@@ -2,7 +2,7 @@ const stringSimilarity = require("string-similarity");
 
 function resolveNames(reqStrs, outcome) {
   //currently would only work with 2 teams
-  if ((outcome[0]["name"] == outcome[1]["name"])) {
+  if (outcome[0]["name"] == outcome[1]["name"]) {
     throw new Error('Scraped names are equal');
   }
   const stringMap = compareAll(

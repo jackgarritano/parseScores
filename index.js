@@ -10,7 +10,7 @@ const main = async (event) => {
     return {outcomeList: resolvedNameOutcome};
   }
   catch(e){
-    return {error: e};
+    return {error: e.message};
   }
 };
 
