@@ -19,7 +19,7 @@ async function scrapeHtml(searchQuery){
     
   }
   catch (error){
-    console.log(error)
+    console.log(error);
   }
   finally{
     if(page !== null && !page.isClosed()){
